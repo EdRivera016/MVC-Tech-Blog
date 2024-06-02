@@ -11,6 +11,17 @@ class User extends Model {
 User.init(
     {
         //Model attributes are defined here
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        {
+            username: {
+                type: DataTypes.INTEGER
+            }
+        }
     },
     {
         sequelize,
