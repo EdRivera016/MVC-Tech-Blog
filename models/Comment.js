@@ -8,7 +8,7 @@ class User extends Model {
   }
 }
 
-User.init(
+Comment.init(
   {
     // Model attributes are defined here
   },
