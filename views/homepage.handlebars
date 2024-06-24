@@ -1,0 +1,19 @@
+<h2>Homepage</h2>
+{{#if posts.length}}
+  {{#each posts}}
+    <div class="post">
+      <h3>{{this.title}}</h3>
+      <p>{{this.content}}</p>
+      <p>Posted by {{this.user.username}} on {{this.createdAt}}</p>
+      {{#if ../logged_in}}
+        <form class="comment-form">
+          <input type="hidden" id="post-id" value="{{this.id}}">
+          <textarea id="comment-text" placeholder="Add a comment" required></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      {{/if}}
+    </div>
+  {{/each}}
+{{else}}
+  <p>No posts yet</p>
+{{/if}}

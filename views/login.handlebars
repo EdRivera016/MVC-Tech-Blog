@@ -1,0 +1,22 @@
+<h2>Login</h2>
+<form class="login-form">
+  <input type="email" id="email-login" placeholder="Email" required>
+  <input type="password" id="password-login" placeholder="Password" required>
+  <button type="submit">Login</button>
+</form>
+<h2>{{post.title}}</h2>
+<p>{{post.content}}</p>
+<p>Posted by {{post.user.username}} on {{post.createdAt}}</p>
+{{#if logged_in}}
+  <form class="comment-form">
+    <input type="hidden" id="post-id" value="{{post.id}}">
+    <textarea id="comment-text" placeholder="Add a comment" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+{{/if}}
+{{#each post.comments}}
+  <div class="comment">
+    <p>{{this.comment_text}}</p>
+    <p>Posted by {{this.user.username}} on {{this.createdAt}}</p>
+  </div>
+{{/each}}
