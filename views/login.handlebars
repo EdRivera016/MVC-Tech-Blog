@@ -1,22 +1,31 @@
-<h2>Login</h2>
-<form class="login-form">
-  <input type="email" id="email-login" placeholder="Email" required>
-  <input type="password" id="password-login" placeholder="Password" required>
-  <button type="submit">Login</button>
-</form>
-<h2>{{post.title}}</h2>
-<p>{{post.content}}</p>
-<p>Posted by {{post.user.username}} on {{post.createdAt}}</p>
-{{#if logged_in}}
-  <form class="comment-form">
-    <input type="hidden" id="post-id" value="{{post.id}}">
-    <textarea id="comment-text" placeholder="Add a comment" required></textarea>
-    <button type="submit">Submit</button>
-  </form>
-{{/if}}
-{{#each post.comments}}
-  <div class="comment">
-    <p>{{this.comment_text}}</p>
-    <p>Posted by {{this.user.username}} on {{this.createdAt}}</p>
-  </div>
-{{/each}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>The Tech Blog</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/signup">Signup</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; 2024 The Tech Blog</p>
+  </footer>
+  <script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,18 +1,35 @@
-<h2>Dashboard</h2>
-{{#if posts.length}}
-  {{#each posts}}
-    <div class="post">
-      <h3>{{this.title}}</h3>
-      <p>{{this.content}}</p>
-      <button data-id="{{this.id}}" class="edit-btn">Edit</button>
-      <button data-id="{{this.id}}" class="delete-btn">Delete</button>
-    </div>
-  {{/each}}
-{{else}}
-  <p>No posts yet</p>
-{{/if}}
-<form class="new-post-form">
-  <input type="text" id="post-title" placeholder="Title" required>
-  <textarea id="post-content" placeholder="Content" required></textarea>
-  <button type="submit">Add Post</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>The Tech Blog</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Your Dashboard</h2>
+    {{#each posts}}
+      <div>
+        <h3>{{this.title}}</h3>
+        <p>{{this.content}}</p>
+        <button class="edit-post" data-id="{{this.id}}">Edit</button>
+        <button class="delete-post" data-id="{{this.id}}">Delete</button>
+      </div>
+    {{/each}}
+    <button id="new-post">New Post</button>
+  </main>
+  <footer>
+    <p>&copy; 2024 The Tech Blog</p>
+  </footer>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
