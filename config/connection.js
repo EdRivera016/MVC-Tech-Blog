@@ -4,9 +4,6 @@ const url = require('url');
 
 let POSTGRESURL = process.env.POSTGRESURL;
 
-// Clean up the POSTGRESURL if it has an extra prefix
-POSTGRESURL = POSTGRESURL.replace(/^POSTGRESURL = /, '');
-
 if (!POSTGRESURL) {
   throw new Error("POSTGRESURL environment variable is not set");
 }
