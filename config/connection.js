@@ -1,6 +1,5 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Load environment variables from .env file
-const url = require('url');
 
 let POSTGRESURL = process.env.POSTGRESURL;
 
@@ -10,20 +9,14 @@ if (!POSTGRESURL) {
 
 console.log(`POSTGRESURL = ${POSTGRESURL}`); // Debugging line to ensure POSTGRESURL is loaded
 
-const urlParts = url.parse(POSTGRESURL);
-
-if (!urlParts.protocol) {
-  throw new Error("Invalid database URL");
-}
-
 const sequelize = new Sequelize(POSTGRESURL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: urlParts.hostname !== 'localhost' ? {
+    ssl: POSTGRESURL.includes('localhost') ? false : { // Adjust SSL configuration based on host
       require: true,
       rejectUnauthorized: false // Needed for connecting to certain PostgreSQL servers like Render
-    } : false
+    }
   }
 });
 
