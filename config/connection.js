@@ -2,7 +2,10 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Load environment variables from .env file
 const url = require('url');
 
-const POSTGRESURL = process.env.POSTGRESURL;
+let POSTGRESURL = process.env.POSTGRESURL;
+
+// Clean up the POSTGRESURL if it has an extra prefix
+POSTGRESURL = POSTGRESURL.replace(/^POSTGRESURL = /, '');
 
 if (!POSTGRESURL) {
   throw new Error("POSTGRESURL environment variable is not set");
