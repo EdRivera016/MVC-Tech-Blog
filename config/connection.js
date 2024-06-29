@@ -1,21 +1,29 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config(); // Load environment variables from .env file
+const url = require('url');
 
-const POSTGRESURL = process.env.POSTGRESURL; // Correct way to access the environment variable
-console.log(`${POSTGRESURL}`); // Debugging line to ensure POSTGRESURL is loaded
+const POSTGRESURL = process.env.POSTGRESURL;
 
 if (!POSTGRESURL) {
   throw new Error("POSTGRESURL environment variable is not set");
+}
+
+console.log(`POSTGRESURL = ${POSTGRESURL}`); // Debugging line to ensure POSTGRESURL is loaded
+
+const urlParts = url.parse(POSTGRESURL);
+
+if (!urlParts.protocol) {
+  throw new Error("Invalid database URL");
 }
 
 const sequelize = new Sequelize(POSTGRESURL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: POSTGRESURL.includes("localhost") ? false : {
+    ssl: urlParts.hostname !== 'localhost' ? {
       require: true,
       rejectUnauthorized: false // Needed for connecting to certain PostgreSQL servers like Render
-    }
+    } : false
   }
 });
 
@@ -23,9 +31,6 @@ const sequelize = new Sequelize(POSTGRESURL, {
 sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
-
-    // Further code that depends on a successful database connection can go here
-
   })
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
