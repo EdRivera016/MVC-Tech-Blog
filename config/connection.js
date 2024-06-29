@@ -1,24 +1,23 @@
-require('dotenv').config();
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
+require('dotenv').config(); // Load environment variables from .env file
 
-// Log environment variables
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_PORT:', process.env.DB_PORT);
+const POSTGRESURL = process.env.POSTGRESURL;
+console.log(`POSTGRESURL: ${POSTGRESURL}`); // Debugging line to ensure POSTGRESURL is loaded
 
-// Create Sequelize instance
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
-    port: process.env.DB_PORT,
+if (!POSTGRESURL) {
+  throw new Error("POSTGRESURL environment variable is not set");
+}
+
+const sequelize = new Sequelize(POSTGRESURL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: POSTGRESURL.includes("localhost") ? false : {
+      require: true,
+      rejectUnauthorized: false // Needed for connecting to certain PostgreSQL servers like Render
+    }
   }
-);
+});
 
 // Authenticate Sequelize instance
 sequelize.authenticate()
