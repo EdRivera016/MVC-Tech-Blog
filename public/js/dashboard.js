@@ -1,6 +1,6 @@
 // routes/authRoutes.js
 const router = require('express').Router();
-const { User } = require('../models');
+const { User } = require('../../models');
 
 // Login Route
 router.post('/login', async (req, res) => {
