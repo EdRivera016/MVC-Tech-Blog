@@ -1,7 +1,7 @@
 // // Imports
 // const User = require("./User");
 // const Post = require("./Post");
-// const Comment = require("./Comment");
+const Comment = require("./Comment");
 
 // // Sets up relationship between tables and allows me to join them using Sequelize
 // User.hasMany(Post, {
