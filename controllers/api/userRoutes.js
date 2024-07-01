@@ -3,18 +3,16 @@ const { User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // Create a new user
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
-    const userData = await User.create(req.body);
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-
-      res.status(200).json(userData);
-    });
+    // Logic for handling user signup
+    const { username, email, password } = req.body;
+    // Example logic to create user
+    const newUser = await User.create({ username, email, password });
+    res.status(201).json(newUser);
   } catch (err) {
-    res.status(400).json(err);
+    console.error(err);
+    res.status(500).json(err);
   }
 });
 
