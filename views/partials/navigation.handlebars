@@ -1,10 +1,9 @@
+<!-- views/partials/navbar.handlebars -->
 <nav>
-  <a href="/">Home</a>
-  {{#if logged_in}}
-    <a href="/dashboard">Dashboard</a>
-    <a id="logout">Logout</a>
-  {{else}}
-    <a href="/login">Login</a>
-    <a href="/signup">Signup</a>
-  {{/if}}
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/login">Login</a></li>
+    <!-- Add more items as needed -->
+  </ul>
 </nav>

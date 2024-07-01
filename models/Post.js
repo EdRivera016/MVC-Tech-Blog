@@ -1,3 +1,4 @@
+// models/Post.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -24,6 +25,15 @@ Post.init(
       references: {
         model: 'user',
         key: 'id',
+      },
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW, // Default value for created_at
+      get() {
+        const rawValue = this.getDataValue('created_at');
+        // Format the date using JavaScript Date methods
+        return rawValue.toLocaleDateString(); // Adjust this format as per your requirements
       },
     },
   },
