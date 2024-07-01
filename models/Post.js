@@ -4,7 +4,7 @@ const sequelize = require("../config/connection");
 
 class Post extends Model {}
 
-// BlogPost Table Model
+// Post Table Model
 Post.init(
   {
     id: {
@@ -38,7 +38,7 @@ Post.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "blogPost",
+    modelName: "Post",
   }
 );
 
