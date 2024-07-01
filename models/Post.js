@@ -1,4 +1,4 @@
-// models/Post.js
+// models/post.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -8,7 +8,6 @@ Post.init(
   {
     id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -23,18 +22,13 @@ Post.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
+        model: 'user', // Make sure this matches your User model
         key: 'id',
       },
     },
     created_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW, // Default value for created_at
-      get() {
-        const rawValue = this.getDataValue('created_at');
-        // Format the date using JavaScript Date methods
-        return rawValue.toLocaleDateString(); // Adjust this format as per your requirements
-      },
+      defaultValue: DataTypes.NOW,
     },
   },
   {

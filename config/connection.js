@@ -20,13 +20,17 @@ const sequelize = new Sequelize(POSTGRESURL, {
   }
 });
 
-// Authenticate Sequelize instance
-sequelize.authenticate()
-  .then(() => {
+// Test the database connection
+async function testConnection() {
+  try {
+    await sequelize.authenticate();
     console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
+  } catch (error) {
+    console.error('Unable to connect to the database:', error.message);
+  }
+}
+
+// Call the function to test the connection
+testConnection();
 
 module.exports = sequelize;
