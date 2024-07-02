@@ -45,7 +45,6 @@
 //   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 // });
 
-
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
@@ -60,7 +59,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Set up Handlebars.js engine with custom helpers
-const hbs = exphbs.create({ helpers });
+const hbs = exphbs.create({ 
+  helpers,
+  partialsDir: [
+    path.join(__dirname, 'views/partials')
+  ]
+});
 
 const sess = {
   secret: 'Super secret secret',
