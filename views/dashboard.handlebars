@@ -1,4 +1,4 @@
-<!-- dashboard.handlebars -->
+{{!-- <!-- dashboard.handlebars -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,4 +21,24 @@
 
   <a href="/logout">Logout</a> <!-- Example logout link -->
 </body>
-</html>
+</html> --}}
+
+{{> layouts/main}}
+<section>
+  <h1>Dashboard</h1>
+  <form id="new-post-form">
+    <input type="text" name="title" placeholder="Post Title">
+    <textarea name="content" placeholder="Post Content"></textarea>
+    <button type="submit">Create Post</button>
+  </form>
+  {{#each posts}}
+  <article>
+    <h2>{{this.title}}</h2>
+    <p>{{this.content}}</p>
+    <small>Created on {{format_date this.date_created}}</small>
+    <button class="edit-post" data-id="{{this.id}}">Edit</button>
+    <button class="delete-post" data-id="{{this.id}}">Delete</button>
+  </article>
+  {{/each}}
+</section>
+<script src="/js/dashboard.js"></script>

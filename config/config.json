@@ -1,0 +1,19 @@
+{
+    "development": {
+      "username": "mvctech_user",
+      "password": "fVQ8q7JenGeQQA7gstp8ajX8Rqe5TgOq",
+      "database": "mvctech",
+      "host": "dpg-cq0t1a3v2p9s73cg0rgg-a.oregon-postgres.render.com",
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+        }
+      }
+    },
+    "production": {
+      "use_env_variable": "POSTGRESURL"
+    }
+  }
+  

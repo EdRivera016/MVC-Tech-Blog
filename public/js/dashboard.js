@@ -1,62 +1,40 @@
+const newPostFormHandler = async (event) => {
+  event.preventDefault();
 
-const router = require('express').Router();
-const { User } = require('../../models');
+  const title = document.querySelector('input[name="title"]').value.trim();
+  const content = document.querySelector('textarea[name="content"]').value.trim();
 
-// Login Route
-router.post('/login', async (req, res) => {
-  try {
-    const userData = await User.findOne({ where: { username: req.body.username } });
+  if (title && content) {
+    const response = await fetch('/api/posts', {
+      method: 'POST',
+      body: JSON.stringify({ title, content }),
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-    if (!userData) {
-      res.status(400).json({ message: 'Incorrect username or password, please try again' });
-      return;
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to create post');
     }
+  }
+};
 
-    const validPassword = await userData.checkPassword(req.body.password);
+document.querySelector('#new-post-form').addEventListener('submit', newPostFormHandler);
 
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect username or password, please try again' });
-      return;
+const delButtonHandler = async (event) => {
+  if (event.target.matches('.delete-post')) {
+    const id = event.target.getAttribute('data-id');
+
+    const response = await fetch(`/api/posts/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to delete post');
     }
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.username = userData.username;
-      req.session.loggedIn = true;
-
-      res.json({ user: userData, message: 'You are now logged in!' });
-    });
-  } catch (err) {
-    res.status(400).json(err);
   }
-});
+};
 
-// Signup Route
-router.post('/signup', async (req, res) => {
-  try {
-    const userData = await User.create(req.body);
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.username = userData.username;
-      req.session.loggedIn = true;
-
-      res.json(userData);
-    });
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-// Logout Route
-router.post('/logout', (req, res) => {
-  if (req.session.loggedIn) {
-    req.session.destroy(() => {
-      res.status(204).end();
-    });
-  } else {
-    res.status(404).end();
-  }
-});
-
-module.exports = router;
+document.querySelectorAll('.delete-post').forEach(btn => btn.addEventListener('click', delButtonHandler));

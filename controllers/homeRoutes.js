@@ -3,26 +3,18 @@ const router = require('express').Router();
 const { Post, User } = require('../models');
 const withAuth = require('../utils/auth'); // Import your withAuth middleware
 
-// Example routes
 router.get('/login', (req, res) => {
-  // Handle login page rendering
   res.render('login'); // Assuming you have a login.handlebars or login.hbs template
 });
 
 router.get('/signup', (req, res) => {
-  // Handle signup page rendering
-  res.render('signup'); // Assuming you have a signup.handlebars or signup.hbs template
+    res.render('signup'); // Assuming you have a signup.handlebars or signup.hbs template
 });
 
 router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['username'],
-        },
-      ],
+      include: [{ model: User, attributes: ['username'] }],
     });
 
     const posts = postData.map((post) => post.get({ plain: true }));
