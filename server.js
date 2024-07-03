@@ -80,7 +80,11 @@ const sess = {
 app.use(session(sess));
 
 // Inform Express.js on which template engine to use
-app.engine('handlebars', hbs.engine);
+app.engine('handlebars', exphbs({
+  extname: '.handlebars',
+  defaultLayout: '.main',
+  layoutsDir: __dirname + 'views/layouts'
+}));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
