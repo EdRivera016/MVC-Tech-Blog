@@ -61,12 +61,16 @@ const PORT = process.env.PORT || 3001;
 // Set up Handlebars.js engine with custom helpers
 const hbs = exphbs.create({
   helpers,
+  defaultLayout: 'main',
+  layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: [
-    path.join(__dirname, 'views/partials'), // Ensure this path is correct
-    path.join(__dirname, 'views/layouts')   // Adding layouts directory to partials
-  ]
+    path.join(__dirname, 'views/partials'),
+    path.join(__dirname, 'views/layouts')
+  ],
+  extname: '.handlebars'
 });
 
+// Set up session middleware with Sequelize store
 const sess = {
   secret: 'Super secret secret',
   cookie: {},
@@ -79,21 +83,20 @@ const sess = {
 
 app.use(session(sess));
 
-// Inform Express.js on which template engine to use
-app.engine('handlebars', exphbs({
-  extname: '.handlebars',
-  defaultLayout: '.main',
-  layoutsDir: __dirname + 'views/layouts'
-}));
+// Set up Handlebars engine
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
 app.use(routes);
 
+// Sync sequelize models and start server
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });
