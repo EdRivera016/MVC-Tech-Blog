@@ -1,3 +1,10 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const newPostForm = document.querySelector(".new-post-form");
+  if (newPostForm) {
+    newPostForm.addEventListener("submit", newFormHandler);
+  }
+});
+
 const newFormHandler = async (event) => {
   event.preventDefault();
 
@@ -18,7 +25,3 @@ const newFormHandler = async (event) => {
     }
   }
 };
-
-document
-  .querySelector(".new-post-form")
-  .addEventListener("submit", newFormHandler);
