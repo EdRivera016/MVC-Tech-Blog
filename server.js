@@ -58,17 +58,30 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Set up Handlebars.js engine with custom helpers
+// // Set up Handlebars.js engine with custom helpers
+// const hbs = exphbs.create({
+//   helpers,
+//   defaultLayout: 'main',
+//   layoutsDir: path.join(__dirname, 'views/layouts'),
+//   partialsDir: [
+//     path.join(__dirname, 'views/partials'),
+//     path.join(__dirname, 'views/layouts')
+//   ],
+//   extname: '.handlebars'
+// });
 const hbs = exphbs.create({
   helpers,
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: [
-    path.join(__dirname, 'views/partials'),
-    path.join(__dirname, 'views/layouts')
+    path.join(__dirname, 'views/partials')
   ],
   extname: '.handlebars'
 });
+
+// Debugging paths
+console.log('Layouts Dir:', path.join(__dirname, 'views/layouts'));
+console.log('Partials Dir:', path.join(__dirname, 'views/partials'));
 
 // Set up session middleware with Sequelize store
 const sess = {
