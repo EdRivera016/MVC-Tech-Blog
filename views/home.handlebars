@@ -1,2 +1,22 @@
 {{!-- views/home.handlebars --}}
-<h1>Home Page</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1 class="my-4">Home Page</h1>
+      
+      {{#if posts.length}}
+        {{#each posts}}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title">{{title}}</h2>
+              <p class="card-text">{{content}}</p>
+              <p class="text-muted">Posted by {{user.username}} on {{date_created}}</p>
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <p>No posts available.</p>
+      {{/if}}
+    </div>
+  </div>
+</div>

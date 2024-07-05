@@ -1,8 +1,12 @@
 [
   {
-    "comment_text": "This is a comment"
+    "comment_body": "This is a comment.",
+    "user_id": 1,
+    "post_id": 1
   },
   {
-    "comment_text": "This is another comment"
+    "comment_body": "This is another comment.",
+    "user_id": 2,
+    "post_id": 2
   }
 ]

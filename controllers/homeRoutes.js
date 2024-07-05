@@ -1,42 +1,48 @@
-// controllers/homeRoutes.js
 const router = require('express').Router();
 const { Post, User } = require('../models');
-const withAuth = require('../utils/auth'); // Import your withAuth middleware
+const withAuth = require('../utils/auth');
 
+// Render the login page
 router.get('/login', (req, res) => {
-  res.render('login'); // Assuming you have a login.handlebars or login.hbs template
+  try {
+    res.render('login', { title: 'Login' });
+  } catch (err) {
+    console.error('Error rendering login page:', err);
+    res.status(500).json(err);
+  }
 });
 
+// Render the signup page
 router.get('/signup', (req, res) => {
-    res.render('signup'); // Assuming you have a signup.handlebars or signup.hbs template
+  try {
+    res.render('signup', { title: 'Sign Up' });
+  } catch (err) {
+    console.error('Error rendering signup page:', err);
+    res.status(500).json(err);
+  }
 });
 
-// router.get('/', async (req, res) => {
-//   try {
-//     const postData = await Post.findAll({
-//       include: [{ model: User, attributes: ['username'] }],
-//     });
+// Render the homepage with all posts
+router.get('/', async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      include: [{ model: User, attributes: ['username'] }],
+    });
 
-//     const posts = postData.map((post) => post.get({ plain: true }));
+    const posts = postData.map((post) => post.get({ plain: true }));
 
-//     res.render('home', { 
-//       posts, 
-//       logged_in: req.session.logged_in 
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-router.get('/', (req, res) => {
-  console.log('Rendering home view');
-  res.render('home', { title: 'Home' });
+    res.render('home', { 
+      posts, 
+      title: 'Home',
+      logged_in: req.session.logged_in 
+    });
+  } catch (err) {
+    console.error('Error fetching posts:', err);
+    res.status(500).json(err);
+  }
 });
 
-module.exports = router;
-
-
-// Protected route with withAuth middleware
+// Render the dashboard with posts by the logged-in user
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
@@ -49,9 +55,11 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
     res.render('dashboard', {
       posts,
-      loggedIn: req.session.loggedIn,
+      title: 'Dashboard',
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
+    console.error('Error fetching dashboard posts:', err);
     res.status(500).json(err);
   }
 });

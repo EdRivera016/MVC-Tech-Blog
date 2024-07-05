@@ -1,10 +1,23 @@
-{{> navigation}}
-<form class="signup-form">
-  <label for="name-signup">Username:</label>
-  <input type="text" id="name-signup" name="name-signup">
-  <label for="email-signup">Email:</label>
-  <input type="email" id="email-signup" name="email-signup">
-  <label for="password-signup">Password:</label>
-  <input type="password" id="password-signup" name="password-signup">
-  <button type="submit">Sign Up</button>
-</form>
+{{!-- views/signup.handlebars --}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2 class="my-4">Sign Up</h2>
+      <form action="/api/users/signup" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>

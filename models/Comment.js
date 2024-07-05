@@ -1,50 +1,44 @@
-// Imports
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
 class Comment extends Model {}
 
-// Comment Table Model
-Comment.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    comment_body: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    date_created: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "user",
-        key: "id",
-      },
-    },
-    Post_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Post",
-        key: "id",
-      },
-    },
+Comment.init({
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   },
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: "comment",
-  }
-);
+  comment_body: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  date_created: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false,
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'users',  // Corrected table name
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  },
+  post_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'posts',  // Corrected table name
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  },
+}, {
+  sequelize,
+  modelName: 'comment',
+});
 
-// Export
 module.exports = Comment;
