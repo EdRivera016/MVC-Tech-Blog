@@ -1,9 +1,40 @@
 const router = require('express').Router();
-const { Post } = require('../../models');
+const { Post, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+// Get all posts
+router.get('/', async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      include: [{ model: User, attributes: ['username'] }],
+    });
+    res.json(postData);
+  } catch (err) {
+    console.error('Error fetching posts:', err);
+    res.status(500).json({ message: 'Failed to retrieve posts.' });
+  }
+});
 
-router.post('/', async (req, res) => {
+// Get a specific post by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{ model: User, attributes: ['username'] }],
+    });
+
+    if (!postData) {
+      return res.status(404).json({ message: 'Post not found.' });
+    }
+
+    res.json(postData);
+  } catch (err) {
+    console.error('Error fetching post by ID:', err);
+    res.status(500).json({ message: 'Failed to retrieve post.' });
+  }
+});
+
+// Create a new post
+router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
@@ -37,10 +68,12 @@ router.put('/:id', withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 // Delete a post
 router.delete('/:id', withAuth, async (req, res) => {
   try {
+    console.log('Delete request received for post ID:', req.params.id);
+    console.log('User ID from session:', req.session.user_id);
+    
     const postData = await Post.destroy({
       where: {
         id: req.params.id,
@@ -49,13 +82,16 @@ router.delete('/:id', withAuth, async (req, res) => {
     });
 
     if (!postData) {
+      console.log('No post found with this id and user_id:', req.params.id, req.session.user_id);
       res.status(404).json({ message: 'No post found with this id!' });
       return;
     }
 
-    res.status(200).json(postData);
+    console.log('Post deleted successfully:', postData);
+    res.status(200).json({ message: 'Post deleted successfully.' });
   } catch (err) {
-    res.status(500).json(err);
+    console.error('Error deleting post:', err);
+    res.status(500).json({ message: 'Failed to delete the post.', error: err.message });
   }
 });
 
