@@ -64,4 +64,11 @@ router.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
+// GET new post page
+router.get('/posts/new', withAuth, (req, res) => {
+  res.render('new-post', {
+    logged_in: req.session.logged_in,
+  });
+});
+
 module.exports = router;

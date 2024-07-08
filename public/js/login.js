@@ -1,10 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.querySelector(".login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", loginFormHandler);
-  }
-});
-
+// Function to handle the login form submission
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
@@ -24,7 +18,15 @@ const loginFormHandler = async (event) => {
       // If successful, redirect the browser to the home page
       document.location.replace("/");
     } else {
-      alert(response.statusText);
+      alert('Failed to log in. Please check your credentials and try again.');
     }
   }
 };
+
+// Wait for the DOM to fully load before attaching event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const loginForm = document.querySelector(".login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", loginFormHandler);
+  }
+});

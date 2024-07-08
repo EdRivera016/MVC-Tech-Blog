@@ -33,13 +33,13 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create a new post
+/// Create a new post
 router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
       content: req.body.content,
-      user_id: req.session.user_id,
+      user_id: req.session.user_id, // Assuming you store user_id in session
     });
 
     res.status(200).json(newPost);
@@ -47,6 +47,7 @@ router.post('/', withAuth, async (req, res) => {
     res.status(400).json(err);
   }
 });
+
 
 // Update an existing post
 router.put('/:id', withAuth, async (req, res) => {

@@ -1,25 +1,24 @@
+// public/js/deletePost.js
 const deletePostHandler = async (event) => {
-  event.preventDefault();
-  console.log("clicked me");
-  console.log(event.target);
+  if (event.target.classList.contains('delete-post-btn')) {
+    const id = event.target.getAttribute('data-id');
 
-  let blogPost = window.location.pathname.split("/");
-  console.log(blogPost);
+    const response = await fetch(`/api/posts/${id}`, {
+      method: 'DELETE',
+    });
 
-  const response = await fetch(`/api/blogPost/${blogPost[2]}`, {
-    method: "DELETE",
-  });
-
-  if (response.ok) {
-    document.location.assign(`/dashboard`);
-  } else {
-    alert(response.statusText);
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to delete post');
+    }
   }
 };
 
-const deleteButton = document.querySelectorAll("#deleteBtn");
+document.addEventListener('DOMContentLoaded', () => {
+  const postList = document.querySelector('.post-list');
 
-// Iterates over all buttons on the page allowing for delete functionality
-for (let i = 0; i < deleteButton.length; i++) {
-  deleteButton[i].addEventListener("click", deletePostHandler);
-}
+  if (postList) {
+    postList.addEventListener('click', deletePostHandler);
+  }
+});

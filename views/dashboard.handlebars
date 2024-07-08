@@ -1,23 +1,64 @@
-{{!-- views/dashboard.handlebars --}}
+{{!-- views/dashboard.handlebars
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h2 class="my-4">Dashboard</h2>
-      <div class="mb-3">
-        <a href="/posts/new" class="btn btn-primary">Create New Post</a>
-      </div>
+      <h1 class="my-4">Dashboard</h1>
+      
       {{#if posts.length}}
         {{#each posts}}
           <div class="card mb-4">
             <div class="card-body">
-              <h3 class="card-title">{{title}}</h3>
+              <h2 class="card-title">{{title}}</h2>
               <p class="card-text">{{content}}</p>
-              <p class="text-muted">Posted on {{date_created}}</p>
-              <a href="/posts/edit/{{id}}" class="btn btn-secondary">Edit</a>
-              <a href="/posts/delete/{{id}}" class="btn btn-danger">Delete</a>
+              <button class="btn btn-primary edit-post-btn" data-id="{{id}}">Edit</button>
+              <button class="btn btn-danger delete-post-btn" data-id="{{id}}">Delete</button>
             </div>
           </div>
         {{/each}}
+      {{else}}
+        <p>No posts available.</p>
+      {{/if}}
+    </div>
+  </div>
+</div> --}}
+{{!-- views/dashboard.handlebars --}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1 class="my-4">Dashboard</h1>
+      <div class="mb-3">
+        <a href="/posts/new" class="btn btn-primary">Create New Post</a>
+      </div>
+      
+      {{#if posts.length}}
+{{#each posts}}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="card-title">{{title}}</h2>
+      <p class="card-text">{{content}}</p>
+      <p class="text-muted">Posted by {{user.username}} on {{format_date date_created}}</p>
+      <button class="btn btn-primary edit-post-btn" data-id="{{id}}">Edit</button>
+      <button class="btn btn-danger delete-post-btn" data-id="{{id}}">Delete</button>
+      <div class="edit-form" style="display: none;">
+        <input type="text" class="form-control" name="post-title-{{id}}" value="{{title}}" />
+        <textarea class="form-control" name="post-content-{{id}}">{{content}}</textarea>
+        <button class="btn btn-success save-post-btn" data-id="{{id}}">Save</button>
+      </div>
+    </div>
+  </div>
+{{/each}}
+
+              {{!-- {{#each posts}}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title">{{title}}</h2>
+              <p class="card-text">{{content}}</p>
+              <p class="text-muted">Posted by {{user.username}} on {{format_date date_created}}</p>
+              <button class="btn btn-primary edit-post-btn" data-id="{{id}}">Edit</button>
+              <button class="btn btn-danger delete-post-btn" data-id="{{id}}">Delete</button>
+            </div>
+          </div>
+        {{/each}} --}}
       {{else}}
         <p>No posts available.</p>
       {{/if}}

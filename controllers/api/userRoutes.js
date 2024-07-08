@@ -106,7 +106,6 @@
 //   }
 // });
 
-// module.exports = router;
 const router = require('express').Router();
 const { User } = require('../../models');
 
@@ -139,6 +138,7 @@ router.get('/users', async (req, res) => {
 });
 
 // User login
+// User login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -150,14 +150,19 @@ router.post('/login', async (req, res) => {
 
     req.session.user_id = userData.id;
     req.session.logged_in = true;
-    req.session.save(() => {
-      res.json({ user: userData, message: 'You are now logged in!' });
-    });
+    await req.session.save(); // Wait for session to save
+
+    // Optionally, redirect to home page after saving session
+    res.redirect('/'); // This will cause a new request and thus a new response
+
+    // Alternatively, respond with a JSON message (only if not redirecting)
+    // res.json({ user: userData, message: 'You are now logged in!' });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Internal server error. Please try again later.' });
   }
 });
+
 
 // User logout
 router.post('/logout', (req, res) => {
